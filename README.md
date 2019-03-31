@@ -27,7 +27,7 @@ prophet_configuration <- function(wfo, mfo, yfo, public_holidays){
     yearly.seasonality = FALSE,
     weekly.seasonality = FALSE,
     daily.seasonality = FALSE,
-    holidays = public_holidays,        #YOUR CONFIGURATION
+    holidays = public_holidays         #YOUR CONFIGURATION
     #n.changepoints = no_changepoints, #YOUR CONFIGURATION
     #holidays.prior.scale = holidays_prior_scale, #YOUR CONFIGURATION
     #seasonality.prior.scale = seasonality_prior_scale, #YOUR CONFIGURATION
@@ -69,7 +69,7 @@ See the function help for details.
 
 ```R
 prophet_optimisation_function <- function(wfo, mfo, yfo){
-  prophet_rolling_crossvalidation(
+  prophethyperbayes::prophet_rolling_crossvalidation(
     prophet_configuration(wfo, mfo, yfo, public_holidays),
     data = prophet_data_full,   #Your configuration
     error_metric = "RMSE",      #Your configuration
