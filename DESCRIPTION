@@ -11,8 +11,9 @@ ByteCompile: true
 Encoding: UTF-8
 LazyData: false
 Imports: 
-    forecast
+    forecast,
+    rlang (>= 0.3.3)
 Depends:
-    prophet,
-    rBayesianOptimization
+    prophet (>= 0.4),
+    rBayesianOptimization (>= 1.1.0)
 RoxygenNote: 6.1.1
