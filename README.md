@@ -16,7 +16,8 @@ In this instance the hyperparameters are the `wfo`, `mfo` and `yfo` parameters a
 It is not *necessary* to pass each argument in this manner providing that objects exist in your global environment.
 (For instance if `public_holidays` existed in the global environment and was not an argument to the `prophet_configuration()` function it would pass straight to the `model` object.)
 
-``prophet_configuration <- function(wfo, mfo, yfo, public_holidays){
+```R
+prophet_configuration <- function(wfo, mfo, yfo, public_holidays){
   model <- prophet(
     #Typical configuration
     yearly.seasonality = FALSE,
@@ -45,7 +46,8 @@ It is not *necessary* to pass each argument in this manner providing that object
 
   # The model object once all modification is complete should be returned.
   return(model)
-  }``
+  }
+```
 
 ## `prophet_configuration()` function
 The `prophet_optimisation_function()` must make use of certain objects defined in your global environment.
@@ -60,7 +62,8 @@ The other arguments for `prophet_configuration()` are marked with `#Your configu
 See the function help for detials.
 
 
-``prophet_optimisation_function <- function(wfo, mfo, yfo){
+```R
+prophet_optimisation_function <- function(wfo, mfo, yfo){
   prophet_rolling_crossvalidation(
     prophet_configuration(wfo, mfo, yfo, public_holidays),
     data = prophet_data_full,   #Your configuration
@@ -68,7 +71,8 @@ See the function help for detials.
     process_starting_row = 700, #Your configuration
     per_validation_period = 7   #Your configuration
     )
-}``
+}
+```
 
 # Installation
 Installing this package requires the *devtools* package.
