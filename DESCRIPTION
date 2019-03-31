@@ -1,12 +1,18 @@
 Package: prophethyperbayes
-Title: What the Package Does (One Line, Title Case)
+Title: Bayesian Hyperparameter Optimisation Framework for Prophet
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Jed",
+           family = "Stephens",
            role = c("aut", "cre"),
-           email = "first.last@example.com")
-Description: What the package does (one paragraph).
-License: What license it uses
+           email = "jed.stephens@advanceddatascience.biz")
+Description: Bayesian hyperparameter optimisation (for the prophet forecasting tool).
+ByteCompile: true
 Encoding: UTF-8
-LazyData: true
+LazyData: false
+Imports: 
+    forecast
+Depends:
+    prophet,
+    rBayesianOptimization
+RoxygenNote: 6.1.1

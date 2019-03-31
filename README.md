@@ -3,12 +3,16 @@ This package is developed by Advanced Data Science (http://www.advanceddatascien
 Contact us for your business analytics and statistical needs.
 We are experts in many forecasting methods.
 
+The framework from which this was developed came from and owes itself greatly to Terrence Neumann's publication: http://rpubs.com/tdneumann/351073
+
 # About this package
 This package is provides a friendly method to perform Bayesian hyperparameter optimisation (for the prophet forecasting tool).
 
 # How to use
 To use this package two custom functions need to be written in the form of the template below.
-The purpose of these functions is to allow the `BayesianOptimization()` (from the *rBayesianOptimization* package) access to the hyperparameters which you seek to optimise.
+The purpose of these functions is to allow the `BayesianOptimization()` function (from the *rBayesianOptimization* package) access to the hyperparameters which you seek to optimise.
+Thereafter the call to the `BayesianOptimization()` function can be made. 
+An example of this is also given.
 
 ## `prophet_configuration()` function
 This function exposes at a minimum the hyperparameters that are being sought to optimise.
@@ -42,6 +46,7 @@ prophet_configuration <- function(wfo, mfo, yfo, public_holidays){
   model <- add_seasonality(model,    name = 'yearly',
                                      period = 365.25,
                                      fourier.order = yfo)
+  # Note, you could have made these modifications earlier in the itital prophet call. It is your preference.                                   
 
   # The model object once all modification is complete should be returned.
   return(model)
@@ -73,6 +78,28 @@ prophet_optimisation_function <- function(wfo, mfo, yfo){
     )
 }
 ```
+
+## Calling `BayesianOptimization()` for optimisation
+For more detials see the help of the `BayesianOptimization()`. 
+Here is an example of that function being called for the running example.
+The `prophet_optimisation_function` is now passed as the first argument to the `BayesianOptimization()` function. 
+Note that `prophet_optimisation_function` is passed *without* the round brackets.
+The `bounds` argumentent (from `BayesianOptimization()`) follows next. 
+Each of the hyperparameters that you seek to optimise is passed in a named list. 
+The `L` suffix on these bounds denote that they are integer values.
+Unless an intitial grid search is conducted then ensure that `init_grid_dt = NULL`. 
+For more configuration of this argument see the help documentation for `BayesianOptimization()`.
+The remaning two arguments are some suggested values from the `BayesianOptimization()` help details. 
+These of course can be customised.
+```R
+prophet_bayes_optimised <- rBayesianOptimization::BayesianOptimization(
+  prophet_optimisation_function,  
+  bounds = list(wfo = c(5L, 10L),
+                mfo = c(7L, 15L),
+                yfo = c(1L, 5L)),
+  init_grid_dt = NULL, init_points = 10, n_iter = 20)
+```
+The resulting `prophet_bayes_optimised` will contain the details about the optimal hyperparameters.
 
 # Installation
 Installing this package requires the *devtools* package.
