@@ -4,7 +4,7 @@ Contact us for your business analytics and statistical needs.
 We are experts in many forecasting forecasting methods.
 
 # About this package
-This package is provides a friendly method to...
+This package is provides a friendly method to perform Bayesian hyperparameter optimisation (for the prophet forecasting tool).
 
 # How to use
 To use this package two custom functions need to be written in the form of the template below.
@@ -16,7 +16,7 @@ In this instance the hyperparameters are the `wfo`, `mfo` and `yfo` parameters a
 It is not *necessary* to pass each argument in this manner providing that objects exist in your global environment.
 (For instance if `public_holidays` existed in the global environment and was not an argument to the `prophet_configuration()` function it would pass straight to the `model` object.)
 
-prophet_configuration <- function(wfo, mfo, yfo, public_holidays){
+``prophet_configuration <- function(wfo, mfo, yfo, public_holidays){
   model <- prophet(
     #Typical configuration
     yearly.seasonality = FALSE,
@@ -45,7 +45,7 @@ prophet_configuration <- function(wfo, mfo, yfo, public_holidays){
 
   # The model object once all modification is complete should be returned.
   return(model)
-  }
+  }``
 
 ## `prophet_configuration()` function
 The `prophet_optimisation_function()` must make use of certain objects defined in your global environment.
@@ -60,7 +60,7 @@ The other arguments for `prophet_configuration()` are marked with `#Your configu
 See the function help for detials.
 
 
-prophet_optimisation_function <- function(wfo, mfo, yfo){
+``prophet_optimisation_function <- function(wfo, mfo, yfo){
   prophet_rolling_crossvalidation(
     prophet_configuration(wfo, mfo, yfo, public_holidays),
     data = prophet_data_full,   #Your configuration
@@ -68,7 +68,7 @@ prophet_optimisation_function <- function(wfo, mfo, yfo){
     process_starting_row = 700, #Your configuration
     per_validation_period = 7   #Your configuration
     )
-}
+}``
 
 # Installation
 Installing this package requires the *devtools* package.
