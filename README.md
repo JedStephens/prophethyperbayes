@@ -107,3 +107,7 @@ Ensure that in R (or RStudio) it is installed else (i.e. `install.packages("devt
 Then run the following lines in your R console:
 ``require(devtools)
 install_github("JedStephens/prophethyperbayes", dependencies = TRUE)``
+
+# Other resources of interest:
+https://research.fb.com/efficient-tuning-of-online-systems-using-bayesian-optimization/
+https://projecteuclid.org/download/pdfview_1/euclid.ba/1533866666
