@@ -1,6 +1,6 @@
 Package: prophethyperbayes
 Title: Bayesian Hyperparameter Optimisation Framework for Prophet
-Version: 0.0.0.9000
+Version: 0.0.22
 Authors@R: person(given = "Jed",
            family = "Stephens",
            role = c("aut", "cre"),
@@ -14,5 +14,7 @@ Imports:
     rlang (>= 0.3.3)
 Depends:
     prophet (>= 0.4),
-    rBayesianOptimization (>= 1.1.0)
+    rBayesianOptimization (>= 1.1.0),
+    foreach,
+    doParallel
 RoxygenNote: 6.1.1

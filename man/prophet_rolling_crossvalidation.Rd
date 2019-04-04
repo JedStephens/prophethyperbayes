@@ -5,8 +5,8 @@
 \title{Prophet Rolling Mean Out of Sample Error (Hyndman's Evaluation on a Rolling Forecasting Origin)}
 \usage{
 prophet_rolling_crossvalidation(prophet_configuration_object, data,
-  error_metric = c("ME", "RMSE", "MAE", "MPE", "MAPE", "MASE"),
-  aggregating_metric = "MEAN", process_starting_row,
+  cores_used, error_metric = c("ME", "RMSE", "MAE", "MPE", "MAPE",
+  "MASE"), aggregating_metric = "MEAN", process_starting_row,
   per_validation_period)
 }
 \arguments{
@@ -14,9 +14,11 @@ prophet_rolling_crossvalidation(prophet_configuration_object, data,
 
 \item{data}{a data object containing all data (test and train). This must be a dataframe with at least the column ds (standing for date in POSXIT) and y which are the observed values}
 
+\item{cores_used}{The numebr of cores upon which the paralised optimisation process is allowed to occur. (Leave at least one core open.)}
+
 \item{error_metric}{your choice of: "ME", "RMSE", "MAE", "MPE", "MAPE", "MASE". Provide only one option as a character string.}
 
-\item{aggregating_metric}{currently only mean supported. Not configurable.}
+\item{aggregating_metric}{either the mean (specify "MEAN") or a vector of weights (which will calculate a weighted mean).}
 
 \item{process_starting_row}{The row for which it is the first point in Hyndman's Evaluation on a rolling forecasting origin}
 
