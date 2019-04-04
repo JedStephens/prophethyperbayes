@@ -15,14 +15,42 @@
 prophet_rolling_crossvalidation <- function(prophet_configuration_object, data,
                                             error_metric = c("ME", "RMSE", "MAE", "MPE", "MAPE", "MASE"),
                                             aggregating_metric = "MEAN",
-                                            process_starting_row, per_validation_period){
+                                            process_starting_row, per_validation_period, cores_used){
+  # Organise the cluster (Part #1)
+  library(foreach)
+  library(doParallel)
+  #---
+
   observations <- nrow(data)
   number_of_validations <- floor((observations - 1 - process_starting_row)/per_validation_period)
   # Subtraction of 1 from the total number of observations so that it is uniquely different.
+  cat("There are ", number_of_validations, "rolling forecast validations each of lenght", per_validation_period, ".")
   if(number_of_validations == 0){
-    simpleError("No validation process can be started..")
+    simpleError("No validation process can be started with zero rolling validations...")
     stop()
   }
+  # Logical tests for the aggregating metric
+  if(aggregating_metric == "MEAN"){
+    aggregating_metric_interal <- "MEAN"
+  }else if(is.numeric(aggregating_metric)){
+    if(length(aggregating_metric) == number_of_validations){
+      aggregating_metric_interal <- "WGHTAVG"
+    }else{
+      simpleError("The weighted average metric is not the same size as the number of rolling forecast validations")
+      stop()
+    }
+  }else{
+    simpleError("The chosen aggregating metric is not recognised")
+    stop()
+  }
+
+
+  # Organise the cluster (part #2)
+  cl <- makeCluster(cores_used)
+  registerDoParallel(cl)
+  # --
+
+  # Begin the evaluation
   #Create output baskets
   error_measure_per_validation <- numeric(length = number_of_validations)
 
@@ -37,9 +65,12 @@ prophet_rolling_crossvalidation <- function(prophet_configuration_object, data,
                                      error_metric)
     error_measure_per_validation[it] <- result$error
   }
+
   #End of iteration process
-  if(aggregating_metric == "MEAN"){
+  if(aggregating_metric_interal == "MEAN"){
     average_error <- mean(error_measure_per_validation)
+  }else if(aggregating_metric_interal == "WGHTAVG"){
+    average_error <- sum(error_measure_per_validation * aggregating_metric)/(sum(error_measure_per_validation))
   }
   # Desired output for the
   #rBayesianOptimization::BayesianOptimization() function
