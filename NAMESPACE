@@ -2,3 +2,5 @@
 
 export(prophet_forwardoose)
 export(prophet_rolling_crossvalidation)
+export(suggested_init_points)
+export(suggested_n_iter)
