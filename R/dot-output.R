@@ -23,8 +23,8 @@ ggbase <- ggplot(data = graphical_data, aes(x=x)) +
   theme_bw()
 
 gg_adding <- function(data, iteration_sub, color_sub){
-  iteration_promise <- enquo(iteration_sub)
-  colour_promise <- enquo(color_sub)
+  iteration_promise <- sym(iteration_sub)
+  colour_promise <- sym(color_sub)
   gg  <- geom_point(data = data, aes(x= x, y= !! iteration_promise, color = !! colour_promise))
   return(gg)
 }
@@ -43,14 +43,10 @@ for (it in 1:number_of_validations) {
 }
 
 # Not working
-ggaddfor(graphical_data, ggbase)
-# VS
-# Working...
-ggadd <- ggbase
-ggadd <- ggadd + gg_adding(graphical_data, iteration1line, iteration1colour)
-ggadd <- ggadd + gg_adding(graphical_data, iteration2line, iteration2colour)
-ggadd <- ggadd + gg_adding(graphical_data, iteration3line, iteration3colour)
-ggadd <- ggadd + gg_adding(graphical_data, iteration4line, iteration4colour)
-ggadd <- ggadd + gg_adding(graphical_data, iteration5line, iteration5colour)
-#return(list(graph = ggout, data = graphical_data))
-#https://dplyr.tidyverse.org/articles/programming.html
+ggiterated <- ggaddfor(graphical_data, ggbase)
+ggfinal <- ggiterated + labs(x="Data points", y = "Iteration") + scale_color_manual(values = c("blue" = "blue", "grey" = "grey", "red" = "red")) + theme(legend.position="none")
+# All the blue points are used as training data in that iteration.
+# The red dot marks the final test point for that particular iteration.
+# The grey dots between the blue, but on the left of the red dot are the data that is predicted and compared against the actual test data.
+# The grey to the right of the red dot is data ignored in that particular iteration.
+ggfinal
