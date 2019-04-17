@@ -1,6 +1,6 @@
 Package: prophethyperbayes
 Title: Bayesian Hyperparameter Optimisation Framework for Prophet
-Version: 0.0.22
+Version: 0.0.3
 Authors@R: person(given = "Jed",
            family = "Stephens",
            role = c("aut", "cre"),

@@ -12,7 +12,7 @@ prophet_forwardoose(prophet_configuration_object, training_data,
 
 \item{training_data}{the data upon which the model trains. This must be a dataframe with at least the column ds (standing for date in POSXIT) and y which are the observed values}
 
-\item{testing_data}{the data upon which predictions should be tested. This must be a dataframe with at least the column ds (standing for date in POSXIT) and y which are the observed values}
+\item{testing_data}{the data upon which predictions should be tested. This dataframe should include all the training data. i.e. it should just extend the training data by the values against which you seek to test. Importantly, this must be a dataframe with at least the column ds (standing for date in POSXIT) and y which are the observed values}
 
 \item{metric}{your choice of: "ME", "RMSE", "MAE", "MPE", "MAPE", "MASE". Provide only one option as a character string.}
 }

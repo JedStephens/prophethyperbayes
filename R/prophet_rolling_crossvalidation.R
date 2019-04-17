@@ -12,6 +12,7 @@
 #' @param per_validation_period The number of periods per each of the forward Hyndman's Evaluation on a rolling forecasting origin.
 #'
 #' @return A list with two metrics: Score (which is the value to be maximized) and Pred which is not currely being used.
+#'
 #' @export
 prophet_rolling_crossvalidation <- function(prophet_configuration_object, data, cores_used,
                                             error_metric = c("ME", "RMSE", "MAE", "MPE", "MAPE", "MASE"),
@@ -43,6 +44,45 @@ prophet_rolling_crossvalidation <- function(prophet_configuration_object, data, 
   }else{
       stop(simpleError("The chosen aggregating metric is not recognised"))
   }
+
+
+  # Graphically Organised Section ---------------------------------------
+  graphical_data <- data.frame(x= 1:(process_starting_row + 1 + (number_of_validations)*per_validation_period))
+
+  for (it in 1:number_of_validations) {
+
+    # For this graph there is always a line and then a color component explaining each one...
+    graphical_data[,paste0("iteration",it,"line")]   <- c(it)
+
+    # First make the whole row grey and then "dolly up" the colors.
+    graphical_data[,paste0("iteration",it,"colour")] <- "grey"
+    graphical_data[1:(process_starting_row + (it-1)*per_validation_period), paste0("iteration",it,"colour")] <- "blue"
+    graphical_data[(process_starting_row + 1 + (it)*per_validation_period), paste0("iteration",it,"colour")] <- "red"
+
+  }
+  #return(graphical_data)
+
+  ggout <- ggplot(data = graphical_data, aes(x=x)) +
+    coord_cartesian(xlim = c(process_starting_row-1*per_validation_period, nrow(graphical_data))) +
+    theme_bw()
+
+  ggout_adding <- function(gg, iteration_sub, color_sub){
+    iteration_sub <- enquo(iteration_sub)
+    color_sub <- enquo(color_sub)
+    gg  <- gg + geom_point(data = graphical_data, aes(x= x, y= !! iterationsub, color = !! colorsub))
+    return(gg)
+  }
+
+  for (it in 1:number_of_validations) {
+    iterationsub <- paste0("iteration",it,"line")
+    colorsub <- paste0("iteration",it,"colour")
+
+    ggout <- ggout_adding(ggout, iterationsub, colorsub)
+
+  }
+  return(list(graph = ggout, data = graphical_data))
+  #https://dplyr.tidyverse.org/articles/programming.html
+
 
 
   # Organise the cluster (part #2)
