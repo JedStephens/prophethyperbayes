@@ -1,6 +1,6 @@
 Package: prophethyperbayes
 Title: Bayesian Hyperparameter Optimisation Framework for Prophet
-Version: 0.0.3
+Version: 0.0.4
 Authors@R: person(given = "Jed",
            family = "Stephens",
            role = c("aut", "cre"),
@@ -11,6 +11,7 @@ Encoding: UTF-8
 LazyData: false
 Imports: 
     forecast,
+    ggplot2,
     rlang (>= 0.3.3)
 Depends:
     prophet (>= 0.4),

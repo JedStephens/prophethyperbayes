@@ -10,6 +10,7 @@
 #' @param aggregating_metric either the mean (specify "MEAN") or a vector of weights (which will calculate a weighted mean).
 #' @param process_starting_row The row for which it is the first point in Hyndman's Evaluation on a rolling forecasting origin
 #' @param per_validation_period The number of periods per each of the forward Hyndman's Evaluation on a rolling forecasting origin.
+#' @param graph The graph argument when set to `TRUE` provides a visualisation of the rolling forecasting method.
 #'
 #' @return A list with two metrics: Score (which is the value to be maximized) and Pred which is not currely being used.
 #'
@@ -17,7 +18,7 @@
 prophet_rolling_crossvalidation <- function(prophet_configuration_object, data, cores_used,
                                             error_metric = c("ME", "RMSE", "MAE", "MPE", "MAPE", "MASE"),
                                             aggregating_metric = "MEAN",
-                                            process_starting_row, per_validation_period){
+                                            process_starting_row, per_validation_period, graph = FALSE){
   # Organise the cluster (Part #1)
   library(foreach)
   library(doParallel)
@@ -47,8 +48,9 @@ prophet_rolling_crossvalidation <- function(prophet_configuration_object, data, 
 
 
   # Graphically Organised Section ---------------------------------------
+  if(graph){
   print(.helper_dot_graph(process_starting_row, per_validation_period, number_of_validations))
-
+  }
 
 
   # Organise the cluster (part #2)

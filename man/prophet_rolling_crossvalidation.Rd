@@ -7,7 +7,7 @@
 prophet_rolling_crossvalidation(prophet_configuration_object, data,
   cores_used, error_metric = c("ME", "RMSE", "MAE", "MPE", "MAPE",
   "MASE"), aggregating_metric = "MEAN", process_starting_row,
-  per_validation_period)
+  per_validation_period, graph = FALSE)
 }
 \arguments{
 \item{prophet_configuration_object}{The result of your configuration of the prophet_configuration() function template. (Described on the GitHub in the README)}
@@ -23,6 +23,8 @@ prophet_rolling_crossvalidation(prophet_configuration_object, data,
 \item{process_starting_row}{The row for which it is the first point in Hyndman's Evaluation on a rolling forecasting origin}
 
 \item{per_validation_period}{The number of periods per each of the forward Hyndman's Evaluation on a rolling forecasting origin.}
+
+\item{graph}{The graph argument when set to `TRUE` provides a visualisation of the rolling forecasting method.}
 }
 \value{
 A list with two metrics: Score (which is the value to be maximized) and Pred which is not currely being used.
