@@ -1,7 +1,10 @@
-library(tidyverse)
-process_starting_row  <- 600
-per_validation_period <- 30
-number_of_validations <- 5
+#process_starting_row  <- 600
+#per_validation_period <- 30
+#number_of_validations <- 5
+.helper_dot_graph <- function(process_starting_row, per_validation_period, number_of_validations){
+
+  library(ggplot2)
+  library(rlang)
 
 graphical_data <- data.frame(x= 1:(process_starting_row + 1 + (number_of_validations)*per_validation_period))
 
@@ -42,11 +45,11 @@ for (it in 1:number_of_validations) {
   return(ggout)
 }
 
-# Not working
 ggiterated <- ggaddfor(graphical_data, ggbase)
 ggfinal <- ggiterated + labs(x="Data points", y = "Iteration") + scale_color_manual(values = c("blue" = "blue", "grey" = "grey", "red" = "red")) + theme(legend.position="none")
 # All the blue points are used as training data in that iteration.
 # The red dot marks the final test point for that particular iteration.
 # The grey dots between the blue, but on the left of the red dot are the data that is predicted and compared against the actual test data.
-# The grey to the right of the red dot is data ignored in that particular iteration.
+# The grey dots to the right of the red dot is test data that is not used (ignored) in that particular iteration.
 ggfinal
+}
